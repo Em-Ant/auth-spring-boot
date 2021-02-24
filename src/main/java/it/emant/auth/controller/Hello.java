@@ -1,4 +1,4 @@
-package it.emant.auth.api;
+package it.emant.auth.controller;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +11,7 @@ public class Hello {
 
   @GetMapping(value = {"/", ""}, produces = MediaType.APPLICATION_JSON_VALUE)
   public String get() {
-    return "{\"hello\": \"world\"}";
+    return "{\"hello\": \"world!\"}";
   }
+  
 }

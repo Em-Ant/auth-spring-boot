@@ -10,7 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Role {
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Getter
   @Setter
   private Integer id;
@@ -19,10 +19,5 @@ public class Role {
   @Column(length = 20)
   @Getter
   @Setter
-  private ERole name;
-
-  public Role(ERole name) {
-    this.name = name;
-  }
-
+  private Roles name;
 }

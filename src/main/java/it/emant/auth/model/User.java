@@ -1,8 +1,7 @@
 package it.emant.auth.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -19,7 +18,7 @@ import lombok.Setter;
 public class User {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Getter
   @Setter
   private Long id;
@@ -40,7 +39,7 @@ public class User {
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
   @Getter
   @Setter
-  private List<Key> keys = new ArrayList<>();
+  private Set<Key> keys = new HashSet<>();
 
   public User(String username, String email) {
     this.username = username;

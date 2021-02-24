@@ -1,7 +1,7 @@
 package it.emant.auth.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -25,7 +25,7 @@ public class Key {
   private static final int _keysize = 32;
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   @NotBlank
@@ -34,14 +34,14 @@ public class Key {
   private String key;
 
   @ManyToMany(fetch = FetchType.EAGER)
-  private List<Role> roles = new ArrayList<>();
+  private Set<Role> roles = new HashSet<>();
 
   @ManyToOne
   @JoinColumn(name = "user_id")
   private User user;
 
   
-  public Key(String key, List<Role> roles) {
+  public Key(String key, Set<Role> roles) {
     this.key = key;
     this.roles = roles;
   }
