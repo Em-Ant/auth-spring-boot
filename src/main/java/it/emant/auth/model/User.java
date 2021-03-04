@@ -36,7 +36,7 @@ public class User {
   @Setter
   private String email;
 
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
   @Getter
   @Setter
   private Set<Key> keys = new HashSet<>();

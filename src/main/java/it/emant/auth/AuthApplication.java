@@ -1,7 +1,5 @@
 package it.emant.auth;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -77,7 +75,6 @@ public class AuthApplication {
 				Set<Role> set = Stream.of(admin, moderator, user).collect(Collectors.toSet());
 				key.setRoles(set);
 
-				key = keys.save(key);
 				log.info("key {} created", key.getKey());
 			}
 
@@ -85,7 +82,8 @@ public class AuthApplication {
 				User _user = new User();
 				_user.setEmail("user@test.com");
 				_user.setUsername("emant");
-				_user.setKeys(new HashSet<Key>(Arrays.asList(key)));
+				key.setUser(_user);
+				_user.getKeys().add(key);
 				users.save(_user);
 				log.info("user {} created and assigned {}", _user.getUsername(), key.getKey());
 			}

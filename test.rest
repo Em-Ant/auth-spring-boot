@@ -1,0 +1,2 @@
+GET http://localhost:8080/auth
+x-api-key: ENfvcCTUsXmvHsFzxaTgEi63V8WarI28
