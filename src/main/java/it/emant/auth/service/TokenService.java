@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import it.emant.auth.dto.TokenDTO;
+import it.emant.auth.exception.CustomException;
 import it.emant.auth.model.Key;
 import it.emant.auth.model.Role;
 import it.emant.auth.model.User;
@@ -25,10 +26,12 @@ public class TokenService {
   @Value("${token.secret}")
   private String SECRET_KEY;
 
-  public TokenDTO getToken(String key) {
+  public TokenDTO getToken(String key) 
+      throws CustomException.InvalidApiKey {
+      
     Key storedKey = keyRepo
       .findByKey(key)
-      .orElseThrow(RuntimeException::new);
+      .orElseThrow(CustomException.InvalidApiKey::new);
 
     User user = storedKey.getUser();
     Set<Role> roles = storedKey.getRoles();
