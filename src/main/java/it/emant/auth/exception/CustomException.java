@@ -1,7 +1,9 @@
 package it.emant.auth.exception;
 
+import org.springframework.security.core.AuthenticationException;
+
 public class CustomException {
-  public static class InvalidApiKey extends RuntimeException {
+  public static class InvalidApiKey extends AuthenticationException {
     static final long serialVersionUID = 1L;
 
     public InvalidApiKey() {
