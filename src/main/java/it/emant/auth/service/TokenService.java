@@ -1,41 +1,23 @@
 package it.emant.auth.service;
 import java.util.Date;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.List;
 import javax.xml.bind.DatatypeConverter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import it.emant.auth.dto.TokenDTO;
-import it.emant.auth.exception.CustomException;
-import it.emant.auth.model.Key;
-import it.emant.auth.model.Role;
-import it.emant.auth.model.User;
-import it.emant.auth.repository.KeyRepository;
 
 @Service
 public class TokenService {
 
   private static int VALIDITY_MS = 24 * 3600 * 1000;
 
-  @Autowired
-  private KeyRepository keyRepo;
-
   @Value("${token.secret}")
   private String SECRET_KEY;
 
-  public TokenDTO getToken(String key) 
-      throws CustomException.InvalidApiKey {
-      
-    Key storedKey = keyRepo
-      .findByKey(key)
-      .orElseThrow(CustomException.InvalidApiKey::new);
-
-    User user = storedKey.getUser();
-    Set<Role> roles = storedKey.getRoles();
-
+  public TokenDTO createToken(String user, List<String> roles)  {
+    
     long nowMillis = System.currentTimeMillis();
     
     Date now = new Date(nowMillis);
@@ -44,16 +26,12 @@ public class TokenService {
     byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(SECRET_KEY);
 
     String jwt = Jwts.builder()
-      .setSubject("key/" + storedKey.getId())
+      .setSubject("token test")
       .setIssuer("emant.altervista.it")
       .setExpiration(new Date(nowMillis + VALIDITY_MS))
       .setIssuedAt(now)
-      .claim("name", user.getUsername())
-      .claim("email", user.getEmail())
-      .claim("roles", roles.stream()
-        .map(r -> r.getName())
-        .collect(Collectors.toList())
-      )
+      .claim("name", user)
+      .claim("roles", roles)
       .signWith(
         SignatureAlgorithm.HS256,
         apiKeySecretBytes

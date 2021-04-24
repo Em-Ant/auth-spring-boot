@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import it.emant.auth.service.TokenService;
 
 @Configuration
 @EnableWebSecurity
@@ -15,6 +16,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
  
     @Autowired
     private ApiKeyAuthenticationProvider authProvider;
+
+    @Autowired
+    private TokenService tokenService;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -28,15 +32,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/db-ui/**").permitAll()
             .anyRequest().authenticated()
             .and()
-            /*
-            .addFilter(new JWTAuthenticationFilter(authenticationManager()))
+            .addFilter(new ApiKeyAuthenticationFilter(authenticationManager(), tokenService))
+            /*,
             .addFilter(new JWTAuthorizationFilter(authenticationManager()))
             */
             // this disables session creation on Spring Security
             .sessionManagement()
-            .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
+               .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.csrf().disable();
-        http.headers().frameOptions().disable();           
+        http.headers().frameOptions().disable();
     }
 }
