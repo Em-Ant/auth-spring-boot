@@ -44,25 +44,25 @@ public class AuthApplication {
 			Role moderator = null;
 			Role user = null;
 
-			if (roles.findByName(Roles.ADMIN).isEmpty()) {
+			if (roles.findByName(Roles.ROLE_ADMIN).isEmpty()) {
 				admin = new Role();
-				admin.setName(Roles.ADMIN);
+				admin.setName(Roles.ROLE_ADMIN);
 				admin = roles.save(admin);
 				log.info("{} role created", admin.getName());
 			} ;
 			
 
-			if (roles.findByName(Roles.MODERATOR).isEmpty()) {
+			if (roles.findByName(Roles.ROLE_MODERATOR).isEmpty()) {
 				moderator = new Role();
-				moderator.setName(Roles.MODERATOR);
+				moderator.setName(Roles.ROLE_MODERATOR);
 				moderator = roles.save(moderator);
 				log.info("{} role created", moderator.getName());
 			} ;
 
 
-			if (roles.findByName(Roles.USER).isEmpty()) {
+			if (roles.findByName(Roles.ROLE_USER).isEmpty()) {
 				user = new Role();
-				user.setName(Roles.USER);
+				user.setName(Roles.ROLE_USER);
 				user = roles.save(user);
 				log.info("{} role created", user.getName());
 			} ;

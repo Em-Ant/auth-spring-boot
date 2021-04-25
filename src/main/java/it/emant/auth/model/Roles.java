@@ -1,5 +1,5 @@
 package it.emant.auth.model;
 
 public enum Roles {
-  USER, MODERATOR, ADMIN
+  ROLE_USER, ROLE_MODERATOR, ROLE_ADMIN
 }

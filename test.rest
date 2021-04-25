@@ -1,5 +1,7 @@
 GET http://localhost:8080/auth
+x-api-key: exKIL1eWnnGfWqBMI2L7guQRaWxfIfVk
+
 
 ###
-GET http://localhost:8080/error
-
+GET http://localhost:8080/hello
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrZXkvMSIsImlzcyI6ImVtYW50LmFsdGVydmlzdGEuaXQiLCJleHAiOjE2MTk0NTM3ODAsImlhdCI6MTYxOTM2NzM4MCwibmFtZSI6ImVtYW50IiwiZW1haWwiOiJ1c2VyQHRlc3QuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfTU9ERVJBVE9SIiwiUk9MRV9VU0VSIl19.uKzdCpwI8elkgdvgDTnzPaaZ738WMZYJj4SZQzUceFs

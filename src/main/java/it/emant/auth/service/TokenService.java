@@ -4,6 +4,7 @@ import java.util.List;
 import javax.xml.bind.DatatypeConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import it.emant.auth.dto.TokenDTO;
@@ -43,5 +44,12 @@ public class TokenService {
       .createdAt(now)
       .expiresAt(expires)
         .build();
+  }
+
+  public Claims validateToken(String token) {
+   Claims claims = Jwts.parser()         
+       .setSigningKey(DatatypeConverter.parseBase64Binary(SECRET_KEY))
+       .parseClaimsJws(token).getBody();
+   return claims;
   }
 }
