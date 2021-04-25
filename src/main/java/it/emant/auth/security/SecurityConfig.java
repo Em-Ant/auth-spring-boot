@@ -21,6 +21,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
        http.cors().and().authorizeRequests()
             .antMatchers(HttpMethod.GET, "/auth").permitAll()
             .antMatchers("/db-ui/**").permitAll()
+            .antMatchers("/hello").hasRole("PONTIFEX")
             .anyRequest().authenticated()
             .and()
             .addFilter(new JwtAuthorizationFilter(authenticationManager(), tokenService))
