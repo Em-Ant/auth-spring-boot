@@ -1,7 +1,6 @@
-package it.emant.auth.security;
+package it.emant.auth.security.filters;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.servlet.FilterChain;
@@ -44,7 +43,7 @@ public class ApiKeyAuthenticationFilter
 
         return authenticationManager.authenticate(
           new UsernamePasswordAuthenticationToken(
-            null, key, new ArrayList<>())
+            null, key)
         );
     }
     
@@ -59,7 +58,7 @@ public class ApiKeyAuthenticationFilter
       List<String> roles =  auth.getAuthorities()
         .stream()
         .map(Object::toString)
-          .collect(Collectors.toList());
+        .collect(Collectors.toList());
 
       String body = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(
         tokenService.createToken(auth.getPrincipal().toString(), roles)

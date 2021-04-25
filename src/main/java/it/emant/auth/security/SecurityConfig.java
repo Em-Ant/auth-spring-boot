@@ -3,10 +3,15 @@ package it.emant.auth.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import it.emant.auth.security.filters.ApiKeyAuthenticationFilter;
+import it.emant.auth.security.filters.JwtAuthorizationFilter;
+import it.emant.auth.security.providers.ApiKeyAuthenticationProvider;
 import it.emant.auth.service.TokenService;
 
 @Configuration
@@ -15,6 +20,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private TokenService tokenService;
+
+    @Autowired
+    private ApiKeyAuthenticationProvider authProvider;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -26,14 +34,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
        http.cors().and().authorizeRequests()
             .antMatchers(HttpMethod.GET, "/auth").permitAll()
             .antMatchers("/db-ui/**").permitAll()
-            .antMatchers("/hello").hasRole("PONTIFEX")
+            .antMatchers("/hello").hasRole("USER")
             .anyRequest().authenticated()
             .and()
             .addFilter(new ApiKeyAuthenticationFilter(authenticationManager(), tokenService))
-            .addFilter(new JwtAuthorizationFilter(authenticationManager(), tokenService))
+            .addFilterAt(new JwtAuthorizationFilter(tokenService), BasicAuthenticationFilter.class)
             // this disables session creation on Spring Security
             .sessionManagement()
-               .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.csrf().disable();
         http.headers().frameOptions().disable();
     }

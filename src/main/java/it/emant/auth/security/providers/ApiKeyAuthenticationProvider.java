@@ -1,4 +1,4 @@
-package it.emant.auth.security;
+package it.emant.auth.security.providers;
 
 import java.util.List;
 import java.util.Optional;
